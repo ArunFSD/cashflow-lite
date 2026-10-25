@@ -1,0 +1,14 @@
+# Build output
+target/
+
+# Local database files and backups (never commit personal data)
+data/
+backups/
+
+# IDE files
+.idea/
+*.iml
+
+# Logs and OS files
+*.log
+.DS_Store

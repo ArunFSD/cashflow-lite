@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('All transactions')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: nav}"></div>
+
+<main class="shell">
+    <section class="page-head">
+        <div>
+            <h1>All transactions</h1>
+            <p class="totals">
+                <span>In <strong class="pos" th:text="${'₹' + #numbers.formatDecimal(result.moneyIn(), 1, 'COMMA', 2, 'POINT')}">₹0.00</strong></span>
+                <span class="muted">·</span>
+                <span>Out <strong class="neg" th:text="${'₹' + #numbers.formatDecimal(result.moneyOut(), 1, 'COMMA', 2, 'POINT')}">₹0.00</strong></span>
+                <span class="muted">·</span>
+                <span>Net <strong th:classappend="${result.net().signum() < 0} ? 'neg' : 'pos'"
+                                  th:text="${'₹' + #numbers.formatDecimal(result.net(), 1, 'COMMA', 2, 'POINT')}">₹0.00</strong></span>
+            </p>
+        </div>
+    </section>
+
+    <th:block th:replace="~{fragments/filters :: bar('/transactions', true)}"></th:block>
+
+    <section class="table-card">
+        <th:block th:replace="~{fragments/table :: table}"></th:block>
+    </section>
+    <th:block th:replace="~{fragments/table :: pager}"></th:block>
+</main>
+
+<script th:src="@{/js/dropdowns.js}" defer></script>
+<script th:src="@{/js/app.js}" defer></script>
+</body>
+</html>

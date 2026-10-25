@@ -1,0 +1,36 @@
+<form th:fragment="bar(action, showKind)" method="get" th:action="${action}" class="filter-bar">
+    <label>
+        <span>From</span>
+        <input type="date" name="from" th:value="${from}">
+    </label>
+    <label>
+        <span>To</span>
+        <input type="date" name="to" th:value="${to}">
+    </label>
+    <label th:if="${showKind}">
+        <span>Show</span>
+        <select name="kind">
+            <option th:each="t : ${entryTypes}" th:value="${t}" th:text="${t.label}" th:selected="${t == kind}"></option>
+        </select>
+    </label>
+    <details class="multi-select">
+        <summary>
+            <span class="multi-caption">Search in</span>
+            <span class="multi-box"><span th:text="${fieldsLabel}">All fields</span></span>
+        </summary>
+        <div class="multi-menu">
+            <label class="check-row" th:each="f : ${searchFields}">
+                <input type="checkbox" name="field" th:value="${f}" th:checked="${fields.contains(f)}">
+                <span th:text="${f.label}">All fields</span>
+            </label>
+        </div>
+    </details>
+    <label class="grow">
+        <span>Search</span>
+        <input type="search" name="q" th:value="${q}" placeholder="Type to search">
+    </label>
+    <div class="filter-actions">
+        <button type="submit">Apply</button>
+        <a th:href="${action}">Reset</a>
+    </div>
+</form>

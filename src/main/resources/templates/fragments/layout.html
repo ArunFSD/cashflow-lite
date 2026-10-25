@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' · Cashflow Lite'">Cashflow Lite</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar" th:fragment="nav">
+    <a class="brand" th:href="@{/expenses}">Cashflow Lite</a>
+    <nav>
+        <a th:href="@{/expenses}">Expenses</a>
+        <a th:href="@{/deposits}">Deposits</a>
+        <a th:href="@{/transactions}">All transactions</a>
+        <a th:href="@{/monthly}">Monthly</a>
+    </nav>
+</header>
+</body>
+</html>

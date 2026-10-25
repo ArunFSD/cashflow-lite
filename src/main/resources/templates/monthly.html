@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Monthly')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: nav}"></div>
+
+<main class="shell">
+    <section class="page-head">
+        <div>
+            <h1>Monthly report</h1>
+            <p class="muted" th:text="${monthLabel}">October 2026</p>
+        </div>
+        <form method="get" th:action="@{/monthly}" class="inline-filter">
+            <input type="month" name="month" th:value="${month}" aria-label="Month">
+            <button type="submit">Show</button>
+        </form>
+    </section>
+
+    <section class="stat-grid">
+        <article class="stat stat-out">
+            <span>Spent</span>
+            <strong th:text="${'₹' + #numbers.formatDecimal(summary.expenseTotal(), 1, 'COMMA', 2, 'POINT')}">₹0.00</strong>
+            <small th:text="${summary.expenseCount() == 1 ? '1 payment' : summary.expenseCount() + ' payments'}">0 payments</small>
+        </article>
+        <article class="stat stat-in">
+            <span>Received</span>
+            <strong th:text="${'₹' + #numbers.formatDecimal(summary.depositTotal(), 1, 'COMMA', 2, 'POINT')}">₹0.00</strong>
+            <small th:text="${summary.depositCount() == 1 ? '1 deposit' : summary.depositCount() + ' deposits'}">0 deposits</small>
+        </article>
+        <article class="stat">
+            <span>Net</span>
+            <strong th:classappend="${summary.net().signum() < 0} ? 'neg' : 'pos'"
+                    th:text="${'₹' + #numbers.formatDecimal(summary.net(), 1, 'COMMA', 2, 'POINT')}">₹0.00</strong>
+            <small class="muted">received minus spent</small>
+        </article>
+    </section>
+
+    <section class="bars-grid">
+        <th:block th:replace="~{fragments/bars :: bars('By payment method', ${summary.byPaymentMethod()})}"></th:block>
+        <th:block th:replace="~{fragments/bars :: bars('By card or app', ${summary.byCardOrApp()})}"></th:block>
+        <th:block th:replace="~{fragments/bars :: bars('By purpose', ${summary.byPurpose()})}"></th:block>
+        <th:block th:replace="~{fragments/bars :: bars('Deposits by source', ${summary.depositsBySource()})}"></th:block>
+    </section>
+</main>
+
+<script th:src="@{/js/dropdowns.js}" defer></script>
+<script th:src="@{/js/app.js}" defer></script>
+</body>
+</html>
